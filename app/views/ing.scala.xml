@@ -1,0 +1,9 @@
+@(ing: Ingredient)
+<ingredient>
+    <id>@ing.getId</id>
+    <name>@ing.getName</name>
+    <category>@ing.getCategory</category>
+    <gluten>@ing.isWithGluten</gluten>
+    <allergy>@ing.isAllergy</allergy>
+    @shop(ing.getShop)
+</ingredient>

@@ -1,0 +1,9 @@
+@(nut: NutritionalInformation)
+<nutritionalinformation>
+    <id>@nut.getId</id>
+    <grams>@nut.getGrams</grams>
+    <calories>@nut.getCalories</calories>
+    <cholesterol>@nut.getCholesterol</cholesterol>
+    <protein>@nut.getProtein</protein>
+    <vitamins>@nut.getVitamins</vitamins>
+</nutritionalinformation>

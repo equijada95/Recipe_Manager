@@ -1,0 +1,6 @@
+@(recipes: List[Recipe])
+<recipes>
+    @for(rec <- recipes) {
+    @recipe(rec)
+    }
+</recipes>

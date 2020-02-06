@@ -1,0 +1,5 @@
+@(shop: Shop)
+<shop>
+    <id>@shop.getId</id>
+    <noun>@shop.getNoun</noun>
+</shop>

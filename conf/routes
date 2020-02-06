@@ -1,0 +1,32 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+#Ingredient's operations
+POST     /ingredient                              controllers.IngredientController.createIngredient(req: Request)
+
+GET      /ingredient/:name                           controllers.IngredientController.findIngredientByName(req: Request, name: String)
+
+GET      /ingredients/:category                    controllers.IngredientController.listIngredientsByCategory(req: Request, category: String)
+
+GET      /ingredients/shop/:noun                    controllers.IngredientController.listIngredientsByShop(req: Request, noun: String)
+
+PUT      /ingredient/:name                           controllers.IngredientController.updateIngredient(req: Request, name: String)
+
+DELETE   /ingredient/:name                         controllers.IngredientController.deleteIngredient(name: String)
+
+#Recipe's operations
+POST     /recipe                                   controllers.RecipeController.createRecipe(req: Request)
+
+POST      /recipe/:nameRecipe/ingredient/:nameIngredient     controllers.RecipeController.addIngredientToRecipe(req: Request, nameIngredient:String, nameRecipe: String)
+
+GET      /recipe/:name                               controllers.RecipeController.findRecipeByName(req: Request, name: String)
+
+PUT      /recipe/:name                           controllers.RecipeController.updateRecipe(req: Request, name: String)
+
+DELETE   /recipe/:name                         controllers.RecipeController.deleteRecipe(name: String)
+
+GET     /recipes/vegetarian                          controllers.RecipeController.listVegetarianRecipes(req: Request)
+
+#Shop's operations
+GET     /shop/:name                                   controllers.ShopController.findShopByName(req: Request, name: String)

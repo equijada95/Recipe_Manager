@@ -1,0 +1,9 @@
+@(recipe: Recipe)
+        <?xml version="1.0" encoding="UTF-8"?>
+<recipe>
+    <id>@recipe.getId</id>
+    <name>@recipe.getName</name>
+    <vegetarian>@recipe.isVegetarian</vegetarian>
+    @ingredients(recipe.getIngredients)
+    @nut(recipe.getNutritionalInformation)
+</recipe>
