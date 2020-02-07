@@ -77,44 +77,46 @@ public class IngredientController extends Controller
 
 
         } else {
-            // if(node.get("name").asText() != null) {
+             if(node.has("name")) {
                 ing.setName(node.get("name").asText());
 
                 /*if (Ingredient.findByName(ing.getName()) != null) {
                     return Results.status(403, "Error: Duplicated Ingredient");
                 }*/
-           //  }
-            String nameCat = node.get("category").asText();
-            // if(nameCat != null) {
-                ing.setCategory(Category.valueOf(nameCat));
-            // }
-            //if(node.get("withGluten").asBoolean() != null)
-            ing.setWithGluten(node.get("withGluten").asBoolean());
+             }
+             if(node.has("category")){
+                String nameCat = node.get("category").asText();
 
-            ing.setAllergy(node.get("allergy").asBoolean());
+                ing.setCategory(Category.valueOf(nameCat));
+            }
+            if(node.has("withGluten"))
+                ing.setWithGluten(node.get("withGluten").asBoolean());
+
+            if(node.has("allergy"))
+                ing.setAllergy(node.get("allergy").asBoolean());
 
             JsonNode node2 = node.path("shop");
+            if(node2.has("noun")) {
+                String noun = node2.get("noun").asText();
 
-            String noun = node2.get("noun").asText();
 
+                if (Shop.findByNoun(noun) != null) {
+                    Shop shop = Shop.findByNoun(noun);
+                    ing.setShop(shop);
+                    shop.addIngredient(ing);
+                    shop.save();
+                    ing.update();
+                } else {
 
-            if (Shop.findByNoun(noun) != null) {
-                Shop shop = Shop.findByNoun(noun);
-                ing.setShop(shop);
-                shop.addIngredient(ing);
-                shop.save();
-                ing.update();
-            } else {
+                    Shop shop = new Shop();
+                    shop.setNoun(noun);
+                    shop.addIngredient(ing);
+                    ing.setShop(shop);
 
-                Shop shop = new Shop();
-                shop.setNoun(noun);
-                shop.addIngredient(ing);
-                ing.setShop(shop);
-
-                shop.save();
-                ing.update();
+                    shop.save();
+                    ing.update();
+                }
             }
-
 
             if (request.accepts("application/json")) {
                 JsonNode json = toJson(ing);

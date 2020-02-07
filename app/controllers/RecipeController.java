@@ -26,13 +26,7 @@ public class RecipeController extends Controller {
 
 
     public Result createRecipe(Http.Request request){
-        /*JsonNode node = request.body().asJson();
 
-        Recipe recipe = new Recipe();
-        recipe.setName(node.get("name").asText());
-
-        recipe.setVegetarian(node.get("isVegetarian").asBoolean());
-        */
 
         Form<Recipe> form = formFactory.form(Recipe.class).bindFromRequest(request);
 
@@ -155,32 +149,36 @@ public class RecipeController extends Controller {
             return Results.status(404, "Error: Recipe Not Found");
 
         } else {
-            // if((node.get("name").asText()) != null) {
+            if(node.has("name"))
                 recipe.setName(node.get("name").asText());
 
             /*if(Recipe.findByName(recipe.getName()) != null ){
                 return Results.status(403, "Error: Duplicated Recipe");
             }*/
-            // }
-            recipe.setVegetarian(node.get("vegetarian").asBoolean());
 
-            JsonNode node2 = node.path("nutritionalInformation");
+            if(node.has("vegetarian"))
+                recipe.setVegetarian(node.get("vegetarian").asBoolean());
+            if(node.has("nutritionalInformation")) {
+                JsonNode node2 = node.path("nutritionalInformation");
 
-            NutritionalInformation nut = new NutritionalInformation();
+                NutritionalInformation nut = new NutritionalInformation();
+                if(node2.has("grams"))
+                    nut.setGrams(node2.get("grams").asInt());
 
-            nut.setGrams(node2.get("grams").asInt());
+                if(node2.has("calories"))
+                    nut.setCalories(node2.get("calories").asInt());
+                if(node2.has("cholesterol"))
+                    nut.setCholesterol(node2.get("cholesterol").asText());
 
-            nut.setCalories(node2.get("calories").asInt());
+                if(node2.has("protein"))
+                    nut.setProtein(node2.get("protein").asText());
+                if(node2.has("vitamins"))
+                    nut.setVitamins(node2.get("vitamins").asText());
 
-            nut.setCholesterol(node2.get("cholesterol").asText());
+                recipe.setNutritionalInformation(nut);
 
-            nut.setProtein(node2.get("protein").asText());
-
-            nut.setVitamins(node2.get("vitamins").asText());
-
-            recipe.setNutritionalInformation(nut);
-
-            nut.save();
+                nut.save();
+            }
             recipe.update();
 
             if (request.accepts("application/json")) {
