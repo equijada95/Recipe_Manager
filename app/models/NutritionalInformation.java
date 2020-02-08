@@ -4,10 +4,12 @@ package models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.Finder;
 import io.ebean.Model;
+import play.data.validation.Constraints.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+
 
 
 @Entity
@@ -18,9 +20,11 @@ public class NutritionalInformation extends Model {
 
     private int grams;
 
+    @Max(message = "The maximum is 600 calories", value = 600)// no lo hace
     private int calories;
 
-    private String cholesterol;
+    @Max(message = "Since cholesterol is a percentage, can not be greater than one", value = 1)
+    private Double cholesterol;
 
     private String protein;
 
@@ -53,11 +57,11 @@ public class NutritionalInformation extends Model {
         this.calories = calories;
     }
 
-    public String getCholesterol() {
+    public Double getCholesterol() {
         return cholesterol;
     }
 
-    public void setCholesterol(String cholesterol) {
+    public void setCholesterol(Double cholesterol) {
         this.cholesterol = cholesterol;
     }
 

@@ -1,19 +1,16 @@
 package controllers;
 
+import actions.TimerAction;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.*;
+import models.Ingredient;
+import models.NutritionalInformation;
+import models.Recipe;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
-import play.mvc.Controller;
-import play.mvc.Http;
-import play.mvc.Result;
-import play.mvc.Results;
 import play.mvc.*;
-import scala.util.parsing.json.JSONArray;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
 import static play.libs.Json.toJson;
@@ -25,6 +22,7 @@ public class RecipeController extends Controller {
     FormFactory formFactory;
 
 
+    @With(TimerAction.class)
     public Result createRecipe(Http.Request request){
 
 
@@ -62,6 +60,8 @@ public class RecipeController extends Controller {
         }
     }
 
+
+    @With(TimerAction.class)
     public Result addIngredientToRecipe(Http.Request request, String nameIngredient, String nameRecipe)
     {
         Ingredient ingredient = Ingredient.findByName(nameIngredient);
@@ -70,9 +70,6 @@ public class RecipeController extends Controller {
         if(ingredient == null)
         {
             return Results.status(404, "Error: Ingredient not found");
-            // intentar que se cree el ingrediente
-            // en plan introduciendo en el body del json el ingrediente
-            // sino lanzar mensaje que no existe ingrediente
         }
         else if(recipe == null)
         {
@@ -98,6 +95,8 @@ public class RecipeController extends Controller {
 
     }
 
+
+
     public Result findRecipeByName(Http.Request request, String name)
     {
         Recipe recipe = Recipe.findByName(name);
@@ -118,13 +117,14 @@ public class RecipeController extends Controller {
         }
     }
 
+
+    @With(TimerAction.class)
     public Result listVegetarianRecipes(Http.Request request)
     {
         List<Recipe> recipes = Recipe.listVegetarian();
 
         if(recipes == null)
         {
-            // por aqui no entra ver porqué sucede
             return Results.status(404, "Error: Vegetarian Recipes Not Found");
         } else if(request.accepts("application/json"))
         {
@@ -139,6 +139,8 @@ public class RecipeController extends Controller {
         }
     }
 
+
+    @With(TimerAction.class)
     public Result updateRecipe(Http.Request request, String name) {
         // TODO Use Form
         JsonNode node = request.body().asJson();
@@ -168,7 +170,7 @@ public class RecipeController extends Controller {
                 if(node2.has("calories"))
                     nut.setCalories(node2.get("calories").asInt());
                 if(node2.has("cholesterol"))
-                    nut.setCholesterol(node2.get("cholesterol").asText());
+                    nut.setCholesterol(node2.get("cholesterol").asDouble());
 
                 if(node2.has("protein"))
                     nut.setProtein(node2.get("protein").asText());

@@ -51,4 +51,20 @@ public class ShopController extends Controller {
             return Results.status(415);
         }
     }
+
+    /*@play.db.ebean.Transactional
+    public Result deleteShop(String noun)
+    {
+        Shop shop = Shop.findByNoun(noun);
+        if (shop == null)
+        {
+            return Results.status(404, "Error: Shop Not Found");
+
+        } else{
+            shop.refresh();
+            Shop.deleteShopWithDependencies(shop);
+            return Results.ok("The shop "+ noun + " was deleted");
+        }
+
+    }*/
 }

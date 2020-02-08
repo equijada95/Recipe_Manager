@@ -64,7 +64,7 @@ public class IngredientController extends Controller
     }
 
 
-
+    @With(TimerAction.class)
     public Result updateIngredient(Http.Request request, String name) {
         // TODO Use Form
         JsonNode node = request.body().asJson();
@@ -110,6 +110,7 @@ public class IngredientController extends Controller
 
                     Shop shop = new Shop();
                     shop.setNoun(noun);
+                    shop.setEmail(node2.get("email").asText());
                     shop.addIngredient(ing);
                     ing.setShop(shop);
 
@@ -129,6 +130,7 @@ public class IngredientController extends Controller
         }
     }
 
+    @With(TimerAction.class)
     public Result listIngredientsByCategory(Http.Request request, String cat)
     {
         Category category = Category.valueOf(cat);
@@ -192,6 +194,8 @@ public class IngredientController extends Controller
         }
     }
 
+
+    @With(TimerAction.class)
     public Result listIngredientsByShop(Http.Request request, String noun)
     {
         Shop shop = Shop.findByNoun(noun);

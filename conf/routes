@@ -29,4 +29,6 @@ DELETE   /recipe/:name                         controllers.RecipeController.dele
 GET     /recipes/vegetarian                          controllers.RecipeController.listVegetarianRecipes(req: Request)
 
 #Shop's operations
-GET     /shop/:name                                   controllers.ShopController.findShopByName(req: Request, name: String)
+GET     /shop/:noun                                   controllers.ShopController.findShopByName(req: Request, noun: String)
+
+#DELETE  /shop/:noun                                   controllers.ShopController.deleteShop(noun: String)

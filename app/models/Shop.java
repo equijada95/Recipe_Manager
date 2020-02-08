@@ -1,8 +1,10 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.ebean.Ebean;
 import io.ebean.Finder;
 import io.ebean.Model;
+import io.ebean.SqlUpdate;
 import play.data.validation.Constraints;
 
 import javax.persistence.CascadeType;
@@ -21,8 +23,11 @@ public class Shop extends Model {
     @Id
     private Long id;
 
-    // @Constraints.Required
+    @Constraints.Required
     private String noun;
+
+    @Constraints.Email
+    private String email;
 
     @OneToMany(cascade= CascadeType.ALL, mappedBy="shop")
     public List<Ingredient> ingredients;
@@ -41,6 +46,14 @@ public class Shop extends Model {
 
     public void setNoun(String noun) {
         this.noun = noun;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @JsonIgnore
@@ -67,9 +80,23 @@ public class Shop extends Model {
 
     public static Shop findById(Long id)
     {
-        // return find.byId(id).findOne();
         return find.query().where().eq("id", id).findOne();
     }
 
 
+    /*public static void deleteShopWithDependencies(Shop shop)
+    {
+        Ebean.beginTransaction();
+        try {
+            SqlUpdate sql1 = Ebean.createSqlUpdate("delete from ingredient where shop_idid = " + shop.getId());
+            SqlUpdate sql2 = Ebean.createSqlUpdate("delete from shop where id = " + shop.getId());
+            Ebean.execute(sql1);
+            Ebean.execute(sql2);
+
+            Ebean.commitTransaction();
+        }
+        finally {
+            Ebean.endTransaction();
+        }
+    }*/
 }

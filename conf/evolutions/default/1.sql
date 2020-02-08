@@ -18,7 +18,7 @@ create table nutritional_information (
   id                            bigint auto_increment not null,
   grams                         integer not null,
   calories                      integer not null,
-  cholesterol                   varchar(255),
+  cholesterol                   double,
   protein                       varchar(255),
   vitamins                      varchar(255),
   constraint pk_nutritional_information primary key (id)
@@ -42,6 +42,7 @@ create table recipe_ingredient (
 create table shop (
   id                            bigint auto_increment not null,
   noun                          varchar(255),
+  email                         varchar(255),
   constraint pk_shop primary key (id)
 );
 
