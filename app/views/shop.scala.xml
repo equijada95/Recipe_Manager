@@ -2,4 +2,5 @@
 <shop>
     <id>@shop.getId</id>
     <noun>@shop.getNoun</noun>
+    <email>@shop.getEmail</email>
 </shop>

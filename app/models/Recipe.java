@@ -6,6 +6,7 @@ import io.ebean.Finder;
 import io.ebean.Model;
 import io.ebean.SqlUpdate;
 import play.data.validation.Constraints;
+import play.data.validation.Constraints.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;

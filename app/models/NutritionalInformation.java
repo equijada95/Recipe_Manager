@@ -4,6 +4,7 @@ package models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.Finder;
 import io.ebean.Model;
+import play.data.validation.Constraints;
 import play.data.validation.Constraints.*;
 
 import javax.persistence.Entity;
@@ -20,6 +21,7 @@ public class NutritionalInformation extends Model {
 
     private int grams;
 
+    @Min(20)
     @Max(message = "The maximum is 600 calories", value = 600)// no lo hace
     private int calories;
 
