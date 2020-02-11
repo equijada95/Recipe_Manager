@@ -179,7 +179,7 @@ public class RecipeController extends Controller {
                     nut.setCholesterol(node2.get("cholesterol").asDouble());
 
                 if(node2.has("protein"))
-                    nut.setProtein(node2.get("protein").asText());
+                    nut.setProtein(node2.get("protein").asDouble());
                 if(node2.has("vitamins"))
                     nut.setVitamins(node2.get("vitamins").asText());
 

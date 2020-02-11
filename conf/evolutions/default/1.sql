@@ -19,7 +19,7 @@ create table nutritional_information (
   grams                         integer not null,
   calories                      integer not null,
   cholesterol                   double,
-  protein                       varchar(255),
+  protein                       double,
   vitamins                      varchar(255),
   constraint pk_nutritional_information primary key (id)
 );

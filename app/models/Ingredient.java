@@ -1,12 +1,7 @@
 package models;
 
 
-// import com.avaje.ebean.Query.findUnique;
-
-// import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.JsonNode;
 import io.ebean.Ebean;
 import io.ebean.Finder;
 import io.ebean.Model;
@@ -14,6 +9,7 @@ import io.ebean.SqlUpdate;
 import play.data.validation.Constraints.*;
 import play.data.validation.ValidationError;
 
+import javax.inject.Inject;
 import javax.persistence.*;
 import java.util.Set;
 
@@ -22,14 +18,13 @@ import javax.persistence.Id;
 import javax.validation.Valid;
 import java.util.*;
 
-import static models.Category.EGG;
-
 
 // POJO
 // Bean
 
 @Entity
-public class Ingredient extends Model
+@Validate
+public class Ingredient extends Model implements Validatable<ValidationError>
 {
     @Id
     private Long id;
@@ -50,7 +45,6 @@ public class Ingredient extends Model
     @ManyToOne
     @Valid
     public Shop shop;
-
 
 
 
@@ -113,25 +107,26 @@ public class Ingredient extends Model
         this.shop = shop;
     }
 
-    public List<ValidationError> validate()
-    {
-        List<ValidationError> errors = new ArrayList<>();
 
+    @Override
+    public ValidationError validate()
+    {
+        // https://github.com/playframework/playframework/issues/5992
         if(category == Category.EGG || category == Category.MILK || category == Category.FISH || category == Category.MOLLUSCS || category == Category.SHELLFISH || category == Category.LEGUMES || category == Category.DRIED_FRUIT || category == Category.CEREALS || category == Category.FRUIT)
         {
-            if(allergy == false)
+            if(!allergy)
             {
-                errors.add(new ValidationError("allergy", "Egg, milk, shellfish, fish, molluscs, legumes, cereals, dried fruits and fruits can cause allergies"));
+                ValidationError error = new ValidationError("allergy", "Egg, milk, shellfish, fish, molluscs, legumes, cereals, dried fruits and fruits can cause allergies");
+                return error;
             }
         }
-        return errors;
+        return null;
     }
 
     private static final Finder<Long, Ingredient> find = new Finder<>(Ingredient.class);
 
     public static Ingredient findById(Long id)
     {
-        // return find.byId(id).findOne();
         return find.query().where().eq("id", id).findOne();
     }
 

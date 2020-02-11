@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.Finder;
 import io.ebean.Model;
 import play.data.validation.Constraints.*;
+import validators.Percentage;
+import validators.PercentageValidator;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -23,10 +25,11 @@ public class NutritionalInformation extends Model {
     @Max(message = "The maximum is 600 calories", value = 600)// no lo hace
     private int calories;
 
-    @Max(message = "Since cholesterol is a percentage, can not be greater than one", value = 0)
+    @Percentage
     private Double cholesterol;
 
-    private String protein;
+    @Percentage
+    private Double protein;
 
     private String vitamins;
 
@@ -65,11 +68,11 @@ public class NutritionalInformation extends Model {
         this.cholesterol = cholesterol;
     }
 
-    public String getProtein() {
+    public Double getProtein() {
         return protein;
     }
 
-    public void setProtein(String protein) {
+    public void setProtein(Double protein) {
         this.protein = protein;
     }
 
