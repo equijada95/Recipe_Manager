@@ -4,7 +4,6 @@ package models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.Finder;
 import io.ebean.Model;
-import play.data.validation.Constraints;
 import play.data.validation.Constraints.*;
 
 import javax.persistence.Entity;
@@ -21,11 +20,10 @@ public class NutritionalInformation extends Model {
 
     private int grams;
 
-    @Min(20)
     @Max(message = "The maximum is 600 calories", value = 600)// no lo hace
     private int calories;
 
-    @Max(message = "Since cholesterol is a percentage, can not be greater than one", value = 1)
+    @Max(message = "Since cholesterol is a percentage, can not be greater than one", value = 0)
     private Double cholesterol;
 
     private String protein;

@@ -5,10 +5,10 @@ import io.ebean.Ebean;
 import io.ebean.Finder;
 import io.ebean.Model;
 import io.ebean.SqlUpdate;
-import play.data.validation.Constraints;
 import play.data.validation.Constraints.*;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class Recipe extends Model {
     @Id
     private Long id;
 
-    @Constraints.Required
+    @Required
     private String name;
 
     private boolean isVegetarian;
@@ -29,6 +29,7 @@ public class Recipe extends Model {
 
 
     @OneToOne(cascade=CascadeType.ALL)
+    @Valid
     public NutritionalInformation nutritionalInformation;
 
 

@@ -1,20 +1,15 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.ebean.Ebean;
 import io.ebean.Finder;
 import io.ebean.Model;
-import io.ebean.SqlUpdate;
-import play.data.validation.Constraints;
+import play.data.validation.Constraints.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.List;
-
-import java.util.*;
-import javax.persistence.*;
 
 
 @Entity
@@ -23,10 +18,10 @@ public class Shop extends Model {
     @Id
     private Long id;
 
-    @Constraints.Required
+    @Required
     private String noun;
 
-    @Constraints.Email
+    @Email
     private String email;
 
     @OneToMany(cascade= CascadeType.ALL, mappedBy="shop")

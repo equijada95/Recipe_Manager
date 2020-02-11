@@ -11,21 +11,18 @@ import io.ebean.Ebean;
 import io.ebean.Finder;
 import io.ebean.Model;
 import io.ebean.SqlUpdate;
-import play.data.validation.Constraints;
-import play.mvc.Http;
-import play.mvc.Result;
-import play.mvc.Results;
+import play.data.validation.Constraints.*;
+import play.data.validation.ValidationError;
 
 import javax.persistence.*;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.validation.Valid;
 import java.util.*;
 
-
+import static models.Category.EGG;
 
 
 // POJO
@@ -37,7 +34,7 @@ public class Ingredient extends Model
     @Id
     private Long id;
 
-    @Constraints.Required
+    @Required
     private String name;
 
     @Enumerated(EnumType.STRING)
@@ -51,6 +48,7 @@ public class Ingredient extends Model
     public Set<Recipe> recipes;
 
     @ManyToOne
+    @Valid
     public Shop shop;
 
 
@@ -113,6 +111,20 @@ public class Ingredient extends Model
 
     public void setShop(Shop shop) {
         this.shop = shop;
+    }
+
+    public List<ValidationError> validate()
+    {
+        List<ValidationError> errors = new ArrayList<>();
+
+        if(category == Category.EGG || category == Category.MILK || category == Category.FISH || category == Category.MOLLUSCS || category == Category.SHELLFISH || category == Category.LEGUMES || category == Category.DRIED_FRUIT || category == Category.CEREALS || category == Category.FRUIT)
+        {
+            if(allergy == false)
+            {
+                errors.add(new ValidationError("allergy", "Egg, milk, shellfish, fish, molluscs, legumes, cereals, dried fruits and fruits can cause allergies"));
+            }
+        }
+        return errors;
     }
 
     private static final Finder<Long, Ingredient> find = new Finder<>(Ingredient.class);

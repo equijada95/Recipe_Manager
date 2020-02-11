@@ -145,6 +145,12 @@ public class RecipeController extends Controller {
         // TODO Use Form
         JsonNode node = request.body().asJson();
 
+        Form<Recipe> form = formFactory.form(Recipe.class).bindFromRequest(request);
+
+        if(form.hasErrors()){
+            return Results.badRequest(form.errorsAsJson());
+        }
+
         Recipe recipe = Recipe.findByName(name);
         if (recipe == null)
         {

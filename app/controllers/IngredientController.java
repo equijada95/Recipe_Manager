@@ -26,10 +26,7 @@ public class IngredientController extends Controller
     public Result createIngredient(Http.Request request) {
 
 
-
         Form<Ingredient> form = formFactory.form(Ingredient.class).bindFromRequest(request);
-
-
 
         if (form.hasErrors()) {
             return Results.badRequest(form.errorsAsJson());
@@ -68,6 +65,12 @@ public class IngredientController extends Controller
     public Result updateIngredient(Http.Request request, String name) {
         // TODO Use Form
         JsonNode node = request.body().asJson();
+
+        Form<Ingredient> form = formFactory.form(Ingredient.class).bindFromRequest(request);
+
+        if (form.hasErrors()) {
+            return Results.badRequest(form.errorsAsJson());
+        }
 
         Ingredient ing = Ingredient.findByName(name);
         if (ing == null)
