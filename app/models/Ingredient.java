@@ -9,7 +9,6 @@ import io.ebean.SqlUpdate;
 import play.data.validation.Constraints.*;
 import play.data.validation.ValidationError;
 
-import javax.inject.Inject;
 import javax.persistence.*;
 import java.util.Set;
 

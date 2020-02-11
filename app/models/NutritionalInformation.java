@@ -6,7 +6,6 @@ import io.ebean.Finder;
 import io.ebean.Model;
 import play.data.validation.Constraints.*;
 import validators.Percentage;
-import validators.PercentageValidator;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

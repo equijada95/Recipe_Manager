@@ -1,7 +1,6 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Recipe;
 import models.Shop;
 import play.mvc.Controller;
 import play.mvc.Http;
