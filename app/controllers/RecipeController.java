@@ -7,6 +7,8 @@ import models.NutritionalInformation;
 import models.Recipe;
 import play.data.Form;
 import play.data.FormFactory;
+import play.i18n.Messages;
+import play.i18n.MessagesApi;
 import play.libs.Json;
 import play.mvc.*;
 
@@ -21,10 +23,15 @@ public class RecipeController extends Controller {
     @Inject
     FormFactory formFactory;
 
+    @Inject
+    MessagesApi messagesApi;
+
 
     @With(TimerAction.class)
     public Result createRecipe(Http.Request request){
 
+
+        Messages messages = this.messagesApi.preferred(request);
 
         Form<Recipe> form = formFactory.form(Recipe.class).bindFromRequest(request);
 
@@ -37,7 +44,8 @@ public class RecipeController extends Controller {
         NutritionalInformation nutritionalInformation = recipe.getNutritionalInformation();
 
         if (Recipe.findByName(recipe.getName()) != null) {
-            return Results.status(403, "Error: Duplicated Recipe");
+            String error = messages.at("DUPLICATED_RECIPE");
+            return Results.status(403, error);
         }
 
         nutritionalInformation.setRecipe(recipe);
@@ -64,16 +72,20 @@ public class RecipeController extends Controller {
     @With(TimerAction.class)
     public Result addIngredientToRecipe(Http.Request request, String nameIngredient, String nameRecipe)
     {
+        Messages messages = this.messagesApi.preferred(request);
+
         Ingredient ingredient = Ingredient.findByName(nameIngredient);
         Recipe recipe = Recipe.findByName(nameRecipe);
 
         if(ingredient == null)
         {
-            return Results.status(404, "Error: Ingredient not found");
+            String error = messages.at("INGNOTFOUND");
+            return Results.status(404, error);
         }
         else if(recipe == null)
         {
-            return Results.status(404, "Error: Recipe not found");
+            String error = messages.at("RECIPENOTFOUND");
+            return Results.status(404, error);
         }
         recipe.addIngredient(ingredient);
         ingredient.addRecipe(recipe);
@@ -99,10 +111,13 @@ public class RecipeController extends Controller {
 
     public Result findRecipeByName(Http.Request request, String name)
     {
+        Messages messages = this.messagesApi.preferred(request);
+
         Recipe recipe = Recipe.findByName(name);
         if(recipe == null)
         {
-            return Results.status(404, "Error: Recipe Not Found");
+            String error = messages.at("RECIPENOTFOUND");
+            return Results.status(404, error);
         }
         else if(request.accepts("application/json"))
         {
@@ -121,11 +136,14 @@ public class RecipeController extends Controller {
     @With(TimerAction.class)
     public Result listVegetarianRecipes(Http.Request request)
     {
+        Messages messages = this.messagesApi.preferred(request);
+
         List<Recipe> recipes = Recipe.listVegetarian();
 
         if(recipes == null)
         {
-            return Results.status(404, "Error: Vegetarian Recipes Not Found");
+            String error = messages.at("VEGNOTFOUND");
+            return Results.status(404, error);
         } else if(request.accepts("application/json"))
         {
             JsonNode json = toJson(recipes);
@@ -145,6 +163,8 @@ public class RecipeController extends Controller {
         // TODO Use Form
         JsonNode node = request.body().asJson();
 
+        Messages messages = this.messagesApi.preferred(request);
+
         Form<Recipe> form = formFactory.form(Recipe.class).bindFromRequest(request);
 
         if(form.hasErrors()){
@@ -154,7 +174,8 @@ public class RecipeController extends Controller {
         Recipe recipe = Recipe.findByName(name);
         if (recipe == null)
         {
-            return Results.status(404, "Error: Recipe Not Found");
+            String error = messages.at("RECIPENOTFOUND");
+            return Results.status(404, error);
 
         } else {
             if(node.has("name"))
@@ -203,12 +224,15 @@ public class RecipeController extends Controller {
 
 
     @play.db.ebean.Transactional
-    public Result deleteRecipe(String name)
+    public Result deleteRecipe(String name, Http.Request request)
     {
+        Messages messages = this.messagesApi.preferred(request);
+
         Recipe recipe = Recipe.findByName(name);
         if (recipe == null)
         {
-            return Results.status(404, "Error: Recipe Not Found");
+            String error = messages.at("RECIPENOTFOUND");
+            return Results.status(404, error);
 
         } else{
             recipe.refresh();

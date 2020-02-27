@@ -1,0 +1,7 @@
+DUPLICATEDING = Error: Duplicated ingredient
+INGNOTFOUND = Error: Ingredient Not Found
+INGNULL = Error: Ingredients are null
+DUPLICATED_RECIPE = Error: Duplicated recipe
+RECIPENOTFOUND = Error: Recipe not found
+VEGNOTFOUND = Error: Vegetarian Recipes Not Found
+SHOPNOTFOUND = Error: Shop Not Found

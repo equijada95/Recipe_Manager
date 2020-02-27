@@ -2,7 +2,11 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+
+GET     /                                          controllers.HomeController.presentation
+
 #Ingredient's operations
+
 POST     /ingredient                              controllers.IngredientController.createIngredient(req: Request)
 
 GET      /ingredient/:name                           controllers.IngredientController.findIngredientByName(req: Request, name: String)
@@ -11,9 +15,9 @@ GET      /ingredients/:category                    controllers.IngredientControl
 
 GET      /ingredients/shop/:noun                    controllers.IngredientController.listIngredientsByShop(req: Request, noun: String)
 
-PATCH      /ingredient/:name                           controllers.IngredientController.updateIngredient(req: Request, name: String)
+PUT     /ingredient/:name                           controllers.IngredientController.updateIngredient(req: Request, name: String)
 
-DELETE   /ingredient/:name                         controllers.IngredientController.deleteIngredient(name: String)
+DELETE   /ingredient/:name                         controllers.IngredientController.deleteIngredient(name: String, req: Request)
 
 #Recipe's operations
 POST     /recipe                                   controllers.RecipeController.createRecipe(req: Request)
@@ -22,9 +26,9 @@ PUT      /recipe/:nameRecipe/ingredient/:nameIngredient     controllers.RecipeCo
 
 GET      /recipe/:name                               controllers.RecipeController.findRecipeByName(req: Request, name: String)
 
-PATCH      /recipe/:name                           controllers.RecipeController.updateRecipe(req: Request, name: String)
+PUT      /recipe/:name                           controllers.RecipeController.updateRecipe(req: Request, name: String)
 
-DELETE   /recipe/:name                         controllers.RecipeController.deleteRecipe(name: String)
+DELETE   /recipe/:name                         controllers.RecipeController.deleteRecipe(name: String, req: Request)
 
 GET     /recipes/vegetarian                          controllers.RecipeController.listVegetarianRecipes(req: Request)
 
