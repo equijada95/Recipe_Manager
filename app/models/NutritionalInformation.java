@@ -12,16 +12,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 
-
 @Entity
 public class NutritionalInformation extends Model {
+
 
     @Id
     private Long Id;
 
     private int grams;
-
-    @Max(message = "The maximum is 600 calories", value = 600)// no lo hace
+    @Max(message = "The maximum is 600 calories", value = 600)
     private int calories;
 
     @Percentage
@@ -96,8 +95,8 @@ public class NutritionalInformation extends Model {
 
     public static NutritionalInformation findById(Long id)
     {
-        // return find.byId(id).findOne();
-        return find.query().where().eq("id", id).findOne();
+         // return find.byId(id).findOne();
+        return find.query().where().eq("Id", id).findOne();
     }
 
 
