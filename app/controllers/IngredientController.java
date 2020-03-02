@@ -27,6 +27,7 @@ public class IngredientController extends Controller
     MessagesApi messagesApi;
 
 
+
     @With(TimerAction.class)
     public Result createIngredient(Http.Request request) {
 
@@ -121,6 +122,7 @@ public class IngredientController extends Controller
                     shop.addIngredient(ing);
                     shop.save();
                     ing.update();
+                   // this.cache.key("listIng").remove;
                 } else {
 
                     Shop shop = new Shop();
@@ -264,7 +266,9 @@ public class IngredientController extends Controller
 
             Ingredient.deleteIngWithDependencies(ing);
 
+
             return Results.ok("The ingredient "+ name + " was deleted");
+
         }
 
     }

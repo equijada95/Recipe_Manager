@@ -106,8 +106,10 @@ public class Recipe extends Model {
 
             SqlUpdate sql1 = Ebean.createSqlUpdate("delete from recipe_ingredient where recipe_id = " + recipe.getId());
             SqlUpdate sql2 = Ebean.createSqlUpdate("delete from recipe where id = " + recipe.getId());
+            SqlUpdate sql3 = Ebean.createSqlUpdate("delete from nutritional_information where id = " + recipe.getId());
             Ebean.execute(sql1);
             Ebean.execute(sql2);
+            Ebean.execute(sql3);
 
             Ebean.commitTransaction();
         }

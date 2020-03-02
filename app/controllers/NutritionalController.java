@@ -11,7 +11,7 @@ import static play.libs.Json.toJson;
 
 public class NutritionalController extends Controller {
 
-    public Result findNutriotionalById(Http.Request request, Long id)
+    public Result findNutritionalById(Http.Request request, Long id)
     {
         NutritionalInformation nut = NutritionalInformation.findById(id);
         if(nut == null)
