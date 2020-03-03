@@ -34,6 +34,7 @@ public class IngredientController extends Controller
 
 
 
+
     @With(TimerAction.class)
     public Result createIngredient(Http.Request request) {
 
@@ -128,8 +129,6 @@ public class IngredientController extends Controller
                     shop.addIngredient(ing);
                     shop.save();
                     ing.update();
-
-
 
                 } else {
 
@@ -277,7 +276,6 @@ public class IngredientController extends Controller
             ing.refresh();
 
             Ingredient.deleteIngWithDependencies(ing);
-
 
             this.cache.remove("listIngredients");
 
