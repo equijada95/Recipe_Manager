@@ -63,7 +63,6 @@ public class Shop extends Model {
     public void addIngredient(Ingredient ingredient)
     {
         this.ingredients.add(ingredient);
-        // ingredient.shop = this;
     }
 
     private static final Finder<Long, Shop> find = new Finder<>(Shop.class);
@@ -79,19 +78,5 @@ public class Shop extends Model {
     }
 
 
-    /*public static void deleteShopWithDependencies(Shop shop)
-    {
-        Ebean.beginTransaction();
-        try {
-            SqlUpdate sql1 = Ebean.createSqlUpdate("delete from ingredient where shop_idid = " + shop.getId());
-            SqlUpdate sql2 = Ebean.createSqlUpdate("delete from shop where id = " + shop.getId());
-            Ebean.execute(sql1);
-            Ebean.execute(sql2);
 
-            Ebean.commitTransaction();
-        }
-        finally {
-            Ebean.endTransaction();
-        }
-    }*/
 }

@@ -35,4 +35,3 @@ GET     /recipes/vegetarian                          controllers.RecipeControlle
 #Shop's operations
 GET     /shop/:noun                                   controllers.ShopController.findShopByName(req: Request, noun: String)
 
-#DELETE  /shop/:noun                                   controllers.ShopController.deleteShop(noun: String)

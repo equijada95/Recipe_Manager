@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import models.Ingredient;
 import models.NutritionalInformation;
 import models.Recipe;
+import play.cache.Cached;
+import play.cache.SyncCacheApi;
 import play.data.Form;
 import play.data.FormFactory;
 import play.i18n.Messages;
@@ -25,6 +27,11 @@ public class RecipeController extends Controller {
 
     @Inject
     MessagesApi messagesApi;
+
+    @Inject
+    private SyncCacheApi cache;
+
+
 
 
     @With(TimerAction.class)
@@ -54,6 +61,7 @@ public class RecipeController extends Controller {
 
         recipe.save();
 
+        this.cache.remove("listRecipes");
 
         if(request.accepts("application/json"))
         {
@@ -92,6 +100,8 @@ public class RecipeController extends Controller {
 
         recipe.update();
         ingredient.update();
+
+        this.cache.remove("listRecipes");
 
         if(request.accepts("application/json"))
         {
@@ -134,6 +144,7 @@ public class RecipeController extends Controller {
 
 
     @With(TimerAction.class)
+    @Cached(key = "listRecipes",duration = 60)
     public Result listVegetarianRecipes(Http.Request request)
     {
         Messages messages = this.messagesApi.preferred(request);
@@ -181,9 +192,7 @@ public class RecipeController extends Controller {
             if(node.has("name"))
                 recipe.setName(node.get("name").asText());
 
-            /*if(Recipe.findByName(recipe.getName()) != null ){
-                return Results.status(403, "Error: Duplicated Recipe");
-            }*/
+
 
             if(node.has("vegetarian"))
                 recipe.setVegetarian(node.get("vegetarian").asBoolean());
@@ -209,6 +218,8 @@ public class RecipeController extends Controller {
                 nut.save();
             }
             recipe.update();
+
+            this.cache.remove("listRecipes");
 
             if (request.accepts("application/json")) {
                 JsonNode json = toJson(recipe);
@@ -237,6 +248,9 @@ public class RecipeController extends Controller {
         } else{
             recipe.refresh();
             Recipe.deleteRecipeWithDependencies(recipe);
+
+            this.cache.remove("listRecipes");
+
             return Results.ok("The recipe "+ name + " was deleted");
         }
 

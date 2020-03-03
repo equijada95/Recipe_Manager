@@ -8,6 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 
 public class PercentageValidator extends Validator<Double> implements ConstraintValidator<Percentage, Double> {
 
+
     @Override
     public boolean isValid(Double value) {
 

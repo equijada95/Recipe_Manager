@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PercentageValidator.class)
 public @interface Percentage {
+
     String message() default "Since this number is a percentage, can not be greater than one";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

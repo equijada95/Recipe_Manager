@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import models.Category;
 import models.Ingredient;
 import models.Shop;
+import play.cache.Cached;
+import play.cache.SyncCacheApi;
 import play.data.Form;
 import play.data.FormFactory;
 import play.i18n.Messages;
@@ -25,6 +27,11 @@ public class IngredientController extends Controller
 
     @Inject
     MessagesApi messagesApi;
+
+    @Inject
+    private SyncCacheApi cache;
+
+
 
 
     @With(TimerAction.class)
@@ -54,9 +61,12 @@ public class IngredientController extends Controller
         }
 
 
+
         shop.addIngredient(ing);
         shop.save();
         ing.save();
+
+        this.cache.remove("listIngredients");
 
         if (request.accepts("application/json")) {
             JsonNode json = toJson(ing);
@@ -95,9 +105,6 @@ public class IngredientController extends Controller
              if(node.has("name")) {
                 ing.setName(node.get("name").asText());
 
-                /*if (Ingredient.findByName(ing.getName()) != null) {
-                    return Results.status(403, "Error: Duplicated Ingredient");
-                }*/
              }
              if(node.has("category")){
                 String nameCat = node.get("category").asText();
@@ -121,6 +128,9 @@ public class IngredientController extends Controller
                     shop.addIngredient(ing);
                     shop.save();
                     ing.update();
+
+
+
                 } else {
 
                     Shop shop = new Shop();
@@ -134,6 +144,8 @@ public class IngredientController extends Controller
                 }
             }
 
+            this.cache.remove("listIngredients");
+
             if (request.accepts("application/json")) {
                 JsonNode json = toJson(ing);
                 return Results.ok(json);
@@ -146,6 +158,7 @@ public class IngredientController extends Controller
     }
 
     @With(TimerAction.class)
+    @Cached(key = "listIngredients",duration = 60)
     public Result listIngredientsByCategory(Http.Request request, String cat)
     {
         Messages messages = this.messagesApi.preferred(request);
@@ -221,6 +234,7 @@ public class IngredientController extends Controller
 
 
     @With(TimerAction.class)
+    @Cached(key = "listIngredients",duration = 60)
     public Result listIngredientsByShop(Http.Request request, String noun)
     {
         Messages messages = this.messagesApi.preferred(request);
@@ -264,7 +278,12 @@ public class IngredientController extends Controller
 
             Ingredient.deleteIngWithDependencies(ing);
 
+
+            this.cache.remove("listIngredients");
+
+
             return Results.ok("The ingredient "+ name + " was deleted");
+
         }
 
     }
