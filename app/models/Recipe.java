@@ -99,6 +99,11 @@ public class Recipe extends Model {
         return find.query().where().eq("isVegetarian", true).findList();
     }
 
+    public static List<Recipe> findAll()
+    {
+        return find.all();
+    }
+
     public static void deleteRecipeWithDependencies(Recipe recipe)
     {
         Ebean.beginTransaction();

@@ -13,6 +13,8 @@ GET      /ingredient/:name                           controllers.IngredientContr
 
 GET      /ingredients/:category                    controllers.IngredientController.listIngredientsByCategory(req: Request, category: String)
 
+GET      /ingredients                               controllers.IngredientController.listAllIngredients(req: Request)
+
 GET      /ingredients/shop/:noun                    controllers.IngredientController.listIngredientsByShop(req: Request, noun: String)
 
 PUT     /ingredient/:name                           controllers.IngredientController.updateIngredient(req: Request, name: String)
@@ -29,6 +31,8 @@ GET      /recipe/:name                               controllers.RecipeControlle
 PUT      /recipe/:name                           controllers.RecipeController.updateRecipe(req: Request, name: String)
 
 DELETE   /recipe/:name                         controllers.RecipeController.deleteRecipe(name: String, req: Request)
+
+GET      /recipes                               controllers.RecipeController.listAllRecipes(req: Request)
 
 GET     /recipes/vegetarian                          controllers.RecipeController.listVegetarianRecipes(req: Request)
 

@@ -164,7 +164,7 @@ public class IngredientController extends Controller
 
         Category category = Category.valueOf(cat);
         List<Ingredient> ingredients = Ingredient.findIngredientsByCategory(category);
-        if(ingredients == null)
+        if(ingredients.isEmpty())
         {
             String error = messages.at("INGNULL");
             return Results.status(404, error);
@@ -182,6 +182,30 @@ public class IngredientController extends Controller
 
 
 
+    }
+
+    @With(TimerAction.class)
+    @Cached(key = "listIngredients",duration = 60)
+    public Result listAllIngredients(Http.Request request)
+    {
+        Messages messages = this.messagesApi.preferred(request);
+        List<Ingredient> ingredients = Ingredient.findAll();
+
+        if(ingredients.isEmpty())
+        {
+            String error = messages.at("INGNULL");
+            return Results.status(404, error);
+        } else if(request.accepts("application/json"))
+        {
+            JsonNode json = toJson(ingredients);
+            return Results.ok(json);
+        } else if(request.accepts("application/xml"))
+        {
+            return Results.ok(views.xml.ingredients.render(ingredients));
+        } else
+        {
+            return Results.status(415);
+        }
     }
 
     public Result findIngredientByName(Http.Request request, String name)
@@ -240,7 +264,7 @@ public class IngredientController extends Controller
 
         Shop shop = Shop.findByNoun(noun);
         List<Ingredient> ingredients = Ingredient.findIngredientsByShop(shop.getId());
-        if(ingredients == null)
+        if(ingredients.isEmpty())
         {
             String error = messages.at("INGNULL");
             return Results.status(404, error);

@@ -5,3 +5,4 @@ DUPLICATED_RECIPE = Error: Duplicated recipe
 RECIPENOTFOUND = Error: Recipe not found
 VEGNOTFOUND = Error: Vegetarian Recipes Not Found
 SHOPNOTFOUND = Error: Shop Not Found
+RECNULL = Error: Recipes are null

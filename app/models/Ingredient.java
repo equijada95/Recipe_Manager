@@ -150,6 +150,11 @@ public class Ingredient extends Model implements Validatable<ValidationError>
         return find.query().where().eq("shop_id", id).findList();
     }
 
+    public static List<Ingredient> findAll()
+    {
+        return find.all();
+    }
+
 
     public static void deleteIngWithDependencies(Ingredient ing)
     {

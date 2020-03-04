@@ -77,6 +77,10 @@ public class Shop extends Model {
         return find.query().where().eq("id", id).findOne();
     }
 
+    public static List<Shop> findAll()
+    {
+        return find.all();
+    }
 
 
 }

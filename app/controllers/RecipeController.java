@@ -143,6 +143,30 @@ public class RecipeController extends Controller {
         }
     }
 
+    @With(TimerAction.class)
+    @Cached(key = "listRecipes",duration = 60)
+    public Result listAllRecipes(Http.Request request)
+    {
+        Messages messages = this.messagesApi.preferred(request);
+        List<Recipe> recipes = Recipe.findAll();
+
+        if(recipes.isEmpty())
+        {
+            String error = messages.at("RECNULL");
+            return Results.status(404, error);
+        } else if(request.accepts("application/json"))
+        {
+            JsonNode json = toJson(recipes);
+            return Results.ok(json);
+        } else if(request.accepts("application/xml"))
+        {
+            return Results.ok(views.xml.recipes.render(recipes));
+        } else
+        {
+            return Results.status(415);
+        }
+    }
+
 
     @With(TimerAction.class)
     @Cached(key = "listRecipes",duration = 60)
@@ -152,7 +176,7 @@ public class RecipeController extends Controller {
 
         List<Recipe> recipes = Recipe.listVegetarian();
 
-        if(recipes == null)
+        if(recipes.isEmpty())
         {
             String error = messages.at("VEGNOTFOUND");
             return Results.status(404, error);

@@ -32,10 +32,10 @@ public class ShopController extends Controller {
         {
             JsonNode json = toJson(shop);
             return Results.ok(json);
-        } /*else if(request.accepts("application/xml"))
+        } else if(request.accepts("application/xml"))
         {
-            return Results.ok(views.xml.recipe.render(recipe));
-        } */else
+            return Results.ok(views.xml.shop.render(shop));
+        } else
         {
             return Results.status(415);
         }
@@ -64,19 +64,7 @@ public class ShopController extends Controller {
         }
     }
 
-    /*@play.db.ebean.Transactional
-    public Result deleteShop(String noun)
-    {
-        Shop shop = Shop.findByNoun(noun);
-        if (shop == null)
-        {
-            return Results.status(404, "Error: Shop Not Found");
 
-        } else{
-            shop.refresh();
-            Shop.deleteShopWithDependencies(shop);
-            return Results.ok("The shop "+ noun + " was deleted");
-        }
 
-    }*/
+
 }
